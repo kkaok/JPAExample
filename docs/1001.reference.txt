@@ -1,0 +1,5 @@
+spring-io jpa guide 
+- https://spring.io/guides/gs/accessing-data-jpa/
+
+h2 
+- https://howtodoinjava.com/spring-boot2/h2-database-example/
