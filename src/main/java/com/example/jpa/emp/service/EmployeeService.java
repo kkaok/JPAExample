@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.example.jpa.emp.entity.Employee;
+import com.example.jpa.emp.repository.EmployeeJPARepository;
 import com.example.jpa.emp.repository.EmployeeRepository;
 import com.example.jpa.exception.DataNotFoundException;
 
@@ -18,6 +21,9 @@ public class EmployeeService {
 
 	@Autowired 
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired 
+	private EmployeeJPARepository employeeJPARepository;
 	
 	public List<Employee> findAll(){
 		return handleList(employeeRepository.findAll());
@@ -96,5 +102,24 @@ public class EmployeeService {
 		return handleList(employeeRepository.searchByFirstNameEndsWith(firstName));
 	}
 
+    public List<Employee> findByFirstNameAndLastName(String firstName, String lastName){
+    	return handleList(employeeRepository.findByFirstNameAndLastName(firstName, lastName));
+    }
+
+    public List<Employee> findByFirstNameOrLastName(String firstName, String lastName){
+    	return handleList(employeeRepository.findByFirstNameOrLastName(firstName, lastName));
+    }
+    
+    public List<Employee> findAll(Sort sort){
+    	return employeeJPARepository.findAll(sort);
+    }
+
+    public Page<Employee> findAll(Pageable pageable){
+    	return employeeJPARepository.findAll(pageable);
+    }
+
+    public List<Employee> findByLastName(String lastName, Pageable pageable){
+    	return employeeJPARepository.findByLastName(lastName, pageable);
+    }
 	
 }

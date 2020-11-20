@@ -8,9 +8,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.example.jpa.emp.entity.Employee;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
 class EmployeeServiceTest {
@@ -21,7 +26,7 @@ class EmployeeServiceTest {
 	private EmployeeService employeeService;
 
 	@Test
-	void test() {
+	void test() throws JsonProcessingException {
 		List<Employee> employees = new ArrayList<>();
 		employees.add(new Employee("Jack", "Bauer"));
 		employees.add(new Employee("Chloe", "O'Brian"));
@@ -64,6 +69,26 @@ class EmployeeServiceTest {
 		handleList("searchByFirstNameStartsWith('Kim')", employeeService.searchByFirstNameStartsWith("Kim"));
 		
 		handleList("searchByFirstNameEndsWith('id')", employeeService.searchByFirstNameEndsWith("id"));
+
+		handleList("findByFirstNameAndLastName(\"Kim\", \"Bauer\")", employeeService.findByFirstNameAndLastName("Kim", "Bauer"));
+
+		handleList("findByFirstNameOrLastName(\"Kim\", \"Bauer\")", employeeService.findByFirstNameOrLastName("Kim", "Bauer"));
+
+		Sort sort = Sort.by("firstName").ascending()
+				  .and(Sort.by("lastName").descending());
+
+		handleList("findAll(Sort sort)", employeeService.findAll(sort));
+
+		Pageable pageable = 
+				PageRequest.of(0, 3, Sort.by("lastName").descending().and(Sort.by("firstName")));
+		
+		handleList("findByLastName(\"Bauer\", pageable)", employeeService.findByLastName("Bauer", pageable));
+
+		Pageable pageableAll = 
+				PageRequest.of(0, 3, Sort.by("lastName").descending().and(Sort.by("firstName")));
+		Page<Employee> pageResult = employeeService.findAll(pageableAll);
+
+		handleList("findAll(pageableAll)", pageResult.getContent());
 
 		log.info("");
 	}

@@ -9,11 +9,12 @@ import org.springframework.data.repository.query.Param;
 import com.example.jpa.emp.entity.Employee;
 
 // 참고 사이트 : https://www.baeldung.com/spring-jpa-like-queries
+// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference
 public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
 	public List<Employee> findByLastName(String lastName);
 
-	public List<Employee> findByFirstName(String lastName);
+	public List<Employee> findByFirstName(String firstName);
 
 	public List<Employee> findByFirstNameContaining(String firstName);
 	
@@ -43,5 +44,9 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
     //@Query("SELECT m FROM TBL_EMPLOYEES m WHERE m.director LIKE %?#{escape([0])} escape ?#{escapeCharacter()}")
     @Query("SELECT m FROM TBL_EMPLOYEES m WHERE m.firstName LIKE %:#{[0]}")
     public List<Employee> searchByFirstNameEndsWith(String firstName);
+
+	public List<Employee> findByFirstNameAndLastName(String firstName, String lastName);
+
+	public List<Employee> findByFirstNameOrLastName(String firstName, String lastName);
 
 }
