@@ -28,11 +28,11 @@ class EmployeeServiceTest {
 	@Test
 	void test() throws JsonProcessingException {
 		List<Employee> employees = new ArrayList<>();
-		employees.add(new Employee("Jack", "Bauer"));
-		employees.add(new Employee("Chloe", "O'Brian"));
-		employees.add(new Employee("Kim", "Bauer"));
-		employees.add(new Employee("David", "Palmer"));
-		employees.add(new Employee("Michelle", "Dessler"));
+		employees.add(new Employee("Jack", "Bauer", "a1@a.a"));
+		employees.add(new Employee("Chloe", "O'Brian", "a2@a.a"));
+		employees.add(new Employee("Kim", "Bauer", "a3@a.a"));
+		employees.add(new Employee("David", "Palmer", "a4@a.a"));
+		employees.add(new Employee("Michelle", "Dessler", "kkaok@a.a"));
 		employeeService.saveAll(employees);
 
 
@@ -89,6 +89,10 @@ class EmployeeServiceTest {
 		Page<Employee> pageResult = employeeService.findAll(pageableAll);
 
 		handleList("findAll(pageableAll)", pageResult.getContent());
+		
+		
+		Employee emp = employeeService.findOneByEmail("kkaok@a.a");
+		System.out.println(emp.toString());
 
 		log.info("");
 	}

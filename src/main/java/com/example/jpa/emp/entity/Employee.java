@@ -20,9 +20,10 @@ public class Employee {
 	
 	protected Employee() {}
 	
-	public Employee(String firstName, String lastName) {
+	public Employee(String firstName, String lastName, String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.email = email;
 	}
 
 	@Column(name="first_name")

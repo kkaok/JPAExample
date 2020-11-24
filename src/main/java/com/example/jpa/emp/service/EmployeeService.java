@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.repository.EmployeeJPARepository;
 import com.example.jpa.emp.repository.EmployeeRepository;
+import com.example.jpa.emp.repository.EmployeeRepositorySupport;
 import com.example.jpa.exception.DataNotFoundException;
 
 @Service
@@ -24,6 +25,9 @@ public class EmployeeService {
 	
 	@Autowired 
 	private EmployeeJPARepository employeeJPARepository;
+	
+	@Autowired 
+	private EmployeeRepositorySupport employeeRepositorySupport;
 	
 	public List<Employee> findAll(){
 		return handleList(employeeRepository.findAll());
@@ -120,6 +124,10 @@ public class EmployeeService {
 
     public List<Employee> findByLastName(String lastName, Pageable pageable){
     	return employeeJPARepository.findByLastName(lastName, pageable);
+    }
+
+    public Employee findOneByEmail(String email){
+        return employeeRepositorySupport.findOneByEmail(email);
     }
 	
 }
