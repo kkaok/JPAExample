@@ -13,6 +13,8 @@ import com.example.jpa.emp.entity.Employee;
 
 public interface EmployeeJPARepository extends JpaRepository<Employee, Long> {
 
+	//public Employee findOneById(Long id);
+
 	public List<Employee> findByLastName(String lastName);
 
 	public List<Employee> findByFirstName(String firstName);

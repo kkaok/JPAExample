@@ -1,0 +1,22 @@
+INSERT INTO TBL_DEPT (dept_cd,  dept_name, stat, created, updated) VALUES
+  ('dev' , '개발팀', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('hr' , '인사팀', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales' , '영업팀', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+
+INSERT INTO TBL_EMPLOYEES (dept_cd, first_name, last_name, email, stat, created, updated) VALUES
+  ('dev'  ,'Lokesh' , 'Gupta'  , 'abc@gmail.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('dev'  ,'Deja1'  , 'Vu1'    , 'xyz01@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('dev'  ,'Deja2'  , 'Vu2'    , 'xyz02@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('dev'  ,'Deja3'  , 'Vu3'    , 'xyz03@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('hr'   ,'Deja4'  , 'Vu4'    , 'xyz04@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('hr'   ,'Deja5'  , 'Vu5'    , 'xyz05@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('hr'   ,'Deja6'  , 'Vu6'    , 'xyz06@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('hr'   ,'Deja7'  , 'Vu7'    , 'xyz07@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('hr'   ,'Deja8'  , 'Vu8'    , 'xyz08@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Deja9'  , 'Vu9'    , 'xyz09@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Deja10' , 'Vu10'   , 'xyz10@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Deja11' , 'Vu11'   , 'xyz11@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Deja12' , 'Vu12'   , 'xyz11@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Deja13' , 'Vu13'   , 'xyz12@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Deja14' , 'Vu14'   , 'xyz13@email.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP()),
+  ('sales','Caption', 'America', 'cap@marvel.com', 'Y', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());

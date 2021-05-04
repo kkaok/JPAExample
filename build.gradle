@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.5'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
-	id 'java'
+	id 'java-library'
 }
 
 group = 'com.example.mail'
@@ -52,12 +52,16 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-apt'
 
+    api('org.modelmapper:modelmapper:2.3.8')
+
+    api('org.apache.commons:commons-lang3:3.5')
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 test {

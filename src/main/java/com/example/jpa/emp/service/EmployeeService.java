@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.repository.EmployeeJPARepository;
@@ -29,26 +30,34 @@ public class EmployeeService {
 	@Autowired 
 	private EmployeeRepositorySupport employeeRepositorySupport;
 	
+    //@Transactional(readOnly = true)
 	public List<Employee> findAll(){
 		return handleList(employeeRepository.findAll());
 	}
 	
+    //@Transactional(readOnly = false)
 	public void saveAll(List<Employee>  employees) {
-		employeeRepository.saveAll(employees);
+	    employeeJPARepository.saveAll(employees);
 	}
 	
+	public void save(Employee  employee) {
+	    employeeJPARepository.save(employee);
+	}
+	
+	//@Transactional(readOnly = true)
 	public Employee findById(Long id) {
-		Optional<Employee> result = employeeRepository.findById(1L);
-		return result.orElseThrow(() -> new DataNotFoundException("직원 정보가 존재하지 않습니다."));
-//		return result.orElse(null);
+	    System.out.println("111");
+        Optional<Employee> result = employeeJPARepository.findById(id);
+        System.out.println("222");
+        return result.orElseThrow(() -> new DataNotFoundException("직원 정보가 존재하지 않습니다."));
 	}
 
 	public List<Employee> findByLastName(String lastName) {
-		return handleList(employeeRepository.findByLastName(lastName));
+		return employeeJPARepository.findByLastName(lastName);
 	}
 
 	public List<Employee> findByFirstName(String firstName) {
-		return handleList(employeeRepository.findByFirstName(firstName));
+		return employeeJPARepository.findByFirstName(firstName);
 	}
 	
 	public <T> List<T> handleList(Iterable<T> iterable) {
@@ -59,59 +68,59 @@ public class EmployeeService {
 	
 	// Containing, Contains, IsContaining and Like
 	public List<Employee> findByFirstNameContaining(String firstName){
-		return handleList(employeeRepository.findByFirstNameContaining(firstName));
+		return employeeJPARepository.findByFirstNameContaining(firstName);
 	}
 	
 	public List<Employee> findByFirstNameContains(String firstName){
-		return handleList(employeeRepository.findByFirstNameContains(firstName));
+		return employeeJPARepository.findByFirstNameContains(firstName);
 	}
 	
 	public List<Employee> findByFirstNameIsContaining(String firstName){
-		return handleList(employeeRepository.findByFirstNameIsContaining(firstName));
+		return employeeJPARepository.findByFirstNameIsContaining(firstName);
 	}
 
 	public List<Employee> findByFirstNameLike(String firstName){
-		return handleList(employeeRepository.findByFirstNameLike(firstName));
+		return employeeJPARepository.findByFirstNameLike(firstName);
 	}
 
 	public List<Employee> findByFirstNameStartsWith(String firstName){
-		return handleList(employeeRepository.findByFirstNameStartsWith(firstName));
+		return employeeJPARepository.findByFirstNameStartsWith(firstName);
 	}
 	
 	public List<Employee> findByFirstNameEndsWith(String firstName){
-		return handleList(employeeRepository.findByFirstNameEndsWith(firstName));
+		return employeeJPARepository.findByFirstNameEndsWith(firstName);
 	}
 	
 	public List<Employee> findByFirstNameContainingIgnoreCase(String firstName){
-		return handleList(employeeRepository.findByFirstNameContainingIgnoreCase(firstName));
+		return employeeJPARepository.findByFirstNameContainingIgnoreCase(firstName);
 	}
 	
 	public List<Employee> findByFirstNameNotContaining(String firstName){
-		return handleList(employeeRepository.findByFirstNameNotContaining(firstName));
+		return employeeJPARepository.findByFirstNameNotContaining(firstName);
 	}
 	
 	public List<Employee> findByFirstNameNotLike(String firstName){
-		return handleList(employeeRepository.findByFirstNameNotLike(firstName));
+		return employeeJPARepository.findByFirstNameNotLike(firstName);
 	}
 	
     public List<Employee> searchByFirstNameLike(@Param("title") String firstName){
-		return handleList(employeeRepository.searchByFirstNameLike(firstName));
+		return employeeJPARepository.searchByFirstNameLike(firstName);
 	}
     
     public List<Employee> searchByFirstNameStartsWith(String firstName){
-		return handleList(employeeRepository.searchByFirstNameStartsWith(firstName));
+		return employeeJPARepository.searchByFirstNameStartsWith(firstName);
 	}
     
     public List<Employee> searchByFirstNameEndsWith(String firstName){
-		return handleList(employeeRepository.searchByFirstNameEndsWith(firstName));
+		return employeeJPARepository.searchByFirstNameEndsWith(firstName);
 	}
 
     public List<Employee> findByFirstNameAndLastName(String firstName, String lastName){
-    	return handleList(employeeRepository.findByFirstNameAndLastName(firstName, lastName));
+    	return employeeJPARepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
     public List<Employee> findByFirstNameOrLastName(String firstName, String lastName){
-    	return handleList(employeeRepository.findByFirstNameOrLastName(firstName, lastName));
+    	return employeeJPARepository.findByFirstNameOrLastName(firstName, lastName);
     }
     
     public List<Employee> findAll(Sort sort){
