@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.jpa.dept.entity.Dept;
 import com.example.jpa.dept.service.DeptService;
-import com.example.jpa.emp.entity.EmpAPI;
+import com.example.jpa.emp.dto.EmpAPI;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;

@@ -40,8 +40,9 @@ public class EmployeeService {
 	    employeeJPARepository.saveAll(employees);
 	}
 	
-	public void save(Employee  employee) {
+	public Employee save(Employee  employee) {
 	    employeeJPARepository.save(employee);
+	    return employee;
 	}
 	
 	//@Transactional(readOnly = true)
