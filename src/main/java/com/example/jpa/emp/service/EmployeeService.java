@@ -1,6 +1,5 @@
 package com.example.jpa.emp.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,32 +14,30 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.jpa.dept.repository.DeptJPARepository;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.repository.EmployeeJPARepository;
-import com.example.jpa.emp.repository.EmployeeRepository;
 import com.example.jpa.emp.repository.EmployeeRepositorySupport;
 import com.example.jpa.exception.DataNotFoundException;
 
 @Service
 public class EmployeeService {
 
-	@Autowired 
-	private EmployeeRepository employeeRepository;
-	
-	@Autowired 
 	private EmployeeJPARepository employeeJPARepository;
 	
-	@Autowired 
 	private EmployeeRepositorySupport employeeRepositorySupport;
 	
-    @Autowired 
     private DeptJPARepository deptJPARepository;
 
+    EmployeeService(@Autowired EmployeeJPARepository employeeJPARepository, @Autowired EmployeeRepositorySupport employeeRepositorySupport, @Autowired DeptJPARepository deptJPARepository){
+        this.employeeJPARepository = employeeJPARepository;
+        this.employeeRepositorySupport = employeeRepositorySupport;
+        this.deptJPARepository = deptJPARepository;
+    }
 
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
 	public List<Employee> findAll(){
-		return handleList(employeeRepository.findAll());
+		return employeeJPARepository.findAll();
 	}
 	
-    //@Transactional(readOnly = false)
+    @Transactional
 	public void saveAll(List<Employee>  employees) {
 	    employeeJPARepository.saveAll(employees);
 	}
@@ -64,13 +61,7 @@ public class EmployeeService {
 	public List<Employee> findByFirstName(String firstName) {
 		return employeeJPARepository.findByFirstName(firstName);
 	}
-	
-	public <T> List<T> handleList(Iterable<T> iterable) {
-		List<T> result = new ArrayList<>();
-		iterable.forEach(result::add);
-		return result;
-	}
-	
+
 	// Containing, Contains, IsContaining and Like
 	public List<Employee> findByFirstNameContaining(String firstName){
 		return employeeJPARepository.findByFirstNameContaining(firstName);

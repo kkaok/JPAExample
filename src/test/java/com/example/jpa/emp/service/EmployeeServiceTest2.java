@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -30,26 +31,20 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.example.jpa")  // 스캔 범위 지정
 //@ActiveProfiles("test")
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class EmployeeServiceTest2 {
+class EmployeeServiceTest2 {
 
 	private static EmployeeService employeeService;
 
     private static ModelMapper modelMapper;
-
-//    public EmployeeServiceTest2(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
-//        this.employeeService = employeeService;
-//        this.modelMapper = modelMapper;
-//    }
 
     private static Employee employee1;
     private static Employee employee2;
     private static Employee employee3;
 
     @BeforeAll //Junit4의 @Before
-    public static void setup(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
+    static void setup(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
         EmployeeServiceTest2.employeeService = employeeService;
         EmployeeServiceTest2.modelMapper = modelMapper;
-        log.info("before start ######################################");
         Dept devDept = new Dept("dev", "개발팀");
         Employee emp1 = new Employee("Jack", "son", "a1@a.a");
         devDept.addEmployee(emp1); 
@@ -66,19 +61,22 @@ public class EmployeeServiceTest2 {
     }
     
     @Test
-	void findById(){
+    @DisplayName("findById() : 한건 조회 테스트")
+	void testFindById(){
 	    Employee employee = EmployeeServiceTest2.employeeService.findById(employee1.getId());
         assertThat(employee.getEmail()).isSameAs(employee1.getEmail());
 	}
 
     @Test
-    void findOneByEmail(){
+    @DisplayName("findOneByEmail() : 이메일로 조회 테스트")
+    void testFindOneByEmail(){
         Employee employee = EmployeeServiceTest2.employeeService.findOneByEmail(employee3.getEmail());
         assertThat(employee.getEmail()).isSameAs(employee3.getEmail());
     }
         
     @Test
-    void findByLastName(){
+    @DisplayName("findByLastName() : lastName으로 조회 테스트")
+    void testFindByLastName(){
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByLastName(employee3.getLastName());
         assertThat(employees)
             .isNotEmpty()
@@ -88,7 +86,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstName() {
+    @DisplayName("findByFirstName() : firstName으로 조회 테스트")
+    void testFindByFirstName() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstName(employee3.getFirstName());
         assertThat(employees)
             .isNotEmpty()
@@ -98,7 +97,8 @@ public class EmployeeServiceTest2 {
     }
     
     @Test
-    void findAll() {
+    @DisplayName("findAll() : 목록 조회 테스트")
+    void testFindAll() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findAll();
         assertThat(employees)
             .isNotEmpty()
@@ -106,7 +106,8 @@ public class EmployeeServiceTest2 {
     }
     
     @Test
-    void findByFirstNameContaining() {
+    @DisplayName("findByFirstNameContaining() : containing 목록 조회 테스트")
+    void testFindByFirstNameContaining() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameContaining("a");
         assertThat(employees)
             .isNotEmpty()
@@ -117,7 +118,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstNameContainingIgnoreCase() {
+    @DisplayName("findByFirstNameContainingIgnoreCase() : containing ignore case 목록 조회 테스트")
+    void testFindByFirstNameContainingIgnoreCase() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameContainingIgnoreCase("ja");
         assertThat(employees)
             .isNotEmpty()
@@ -128,7 +130,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstNameNotContaining() {
+    @DisplayName("findByFirstNameNotContaining() : not containing 목록 조회 테스트")
+    void testFindByFirstNameNotContaining() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameNotContaining("Ja");
         assertThat(employees)
             .isNotEmpty()
@@ -139,7 +142,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstNameLike() {
+    @DisplayName("findByFirstNameLike() : firstName like 목록 조회 테스트")
+    void testFindByFirstNameLike() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameLike("%ac%");
         assertThat(employees)
             .isNotEmpty()
@@ -150,7 +154,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void searchByFirstNameLike() {
+    @DisplayName("searchByFirstNameLike() : firstName like 목록 search 테스트")
+    void testSearchByFirstNameLike() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.searchByFirstNameLike("%ac%");
         assertThat(employees)
             .isNotEmpty()
@@ -161,7 +166,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstNameNotLike() {
+    @DisplayName("findByFirstNameNotLike() : firstName not like 목록 search 테스트")
+    void testFindByFirstNameNotLike() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameNotLike("%ac%");
         assertThat(employees)
             .isNotEmpty()
@@ -172,7 +178,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstNameStartsWith() {
+    @DisplayName("findByFirstNameStartsWith() : Starts With 목록 조회 테스트")
+    void testFindByFirstNameStartsWith() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameStartsWith("kk");
         assertThat(employees)
             .isNotEmpty()
@@ -183,7 +190,8 @@ public class EmployeeServiceTest2 {
     }
     
     @Test
-    void findByFirstNameEndsWith() {
+    @DisplayName("findByFirstNameEndsWith() : Ends With 목록 조회 테스트")
+    void testFindByFirstNameEndsWith() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameEndsWith("ee");
         assertThat(employees)
             .isNotEmpty()
@@ -194,7 +202,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void searchByFirstNameStartsWith() {
+    @DisplayName("searchByFirstNameStartsWith() : Starts With 목록 search 테스트")
+    void testSearchByFirstNameStartsWith() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.searchByFirstNameStartsWith("kk");
         assertThat(employees)
             .isNotEmpty()
@@ -205,7 +214,8 @@ public class EmployeeServiceTest2 {
     }
     
     @Test
-    void searchByFirstNameEndsWith() {
+    @DisplayName("searchByFirstNameEndsWith() : Ends With 목록 search 테스트")
+    void testSearchByFirstNameEndsWith() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.searchByFirstNameEndsWith("ee");
         
         System.out.println("@@@@@@@@@");
@@ -225,7 +235,8 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void findByFirstNameAndLastName() {
+    @DisplayName("findByFirstNameAndLastName() : And 조건 목록 조회 테스트")
+    void testFindByFirstNameAndLastName() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameAndLastName("Jack", "son");
         assertThat(employees)
             .isNotEmpty()
@@ -236,7 +247,8 @@ public class EmployeeServiceTest2 {
     }
     
     @Test
-    void findByFirstNameOrLastName() {
+    @DisplayName("findByFirstNameOrLastName() : Or 조건 목록 조회 테스트")
+    void testFindByFirstNameOrLastName() {
         List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameOrLastName("Jack", "good");
         assertThat(employees)
             .isNotEmpty()
@@ -248,19 +260,21 @@ public class EmployeeServiceTest2 {
     }
 
     @Test
-    void sort() {
+    @DisplayName("sort() : 정렬 목록 조회 테스트")
+    void testSort() {
         Sort sort = Sort.by("firstName").ascending().and(Sort.by("lastName").descending());
         List<Employee> employees = EmployeeServiceTest2.employeeService.findAll(sort);
         assertThat(employees)
             .isNotEmpty()
             .hasSize(3);
 //        employees.stream().forEach(System.out::println);
-        assertThat(employees.get(0)).isEqualTo(employee1);
-        assertThat(employees.get(1)).isEqualTo(employee3);
-        assertThat(employees.get(2)).isEqualTo(employee2);
+        assertThat(employees.get(0)).isNotNull().isEqualTo(employee1);
+        assertThat(employees.get(1)).isNotNull().isEqualTo(employee3);
+        assertThat(employees.get(2)).isNotNull().isEqualTo(employee2);
     }
     
     @Test
+    @DisplayName("pageable() : 페이징 목록 조회 테스트")
     void pageable() {
         int pageSize = 2;
         int currentPage = 0;
@@ -275,14 +289,15 @@ public class EmployeeServiceTest2 {
         assertThat(employees)
             .isNotEmpty()
             .hasSize(2);
-        assertThat(employees.get(0)).isEqualTo(employee1);
-        assertThat(employees.get(1)).isEqualTo(employee3);
+        assertThat(employees.get(0)).isNotNull().isEqualTo(employee1);
+        assertThat(employees.get(1)).isNotNull().isEqualTo(employee3);
     }
 
     @Test
+    @DisplayName("modelMapperTest() : model Mapper 테스트")
     void modelMapperTest() throws JsonProcessingException {
         EmpAPI api = modelMapper.map(employee1, EmpAPI.class);
-        assertThat(api.getEmail()).isEqualTo(employee1.getEmail());
+        assertThat(api.getEmail()).isNotNull().isEqualTo(employee1.getEmail());
 	}
 
 }

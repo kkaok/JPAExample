@@ -9,7 +9,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 @Repository
 public class DeptRepositorySupport extends QuerydslRepositorySupport {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    final JPAQueryFactory jpaQueryFactory;
 
     public DeptRepositorySupport(JPAQueryFactory jpaQueryFactory) {
         super(Dept.class);

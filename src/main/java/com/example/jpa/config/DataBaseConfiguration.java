@@ -8,7 +8,10 @@ import org.springframework.context.annotation.Configuration;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+import lombok.NoArgsConstructor;
+
 @Configuration
+@NoArgsConstructor
 public class DataBaseConfiguration {
 
     @PersistenceContext
