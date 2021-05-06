@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.jpa.dept.repository.DeptJPARepository;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.repository.EmployeeJPARepository;
 import com.example.jpa.emp.repository.EmployeeRepository;
@@ -30,6 +31,10 @@ public class EmployeeService {
 	@Autowired 
 	private EmployeeRepositorySupport employeeRepositorySupport;
 	
+    @Autowired 
+    private DeptJPARepository deptJPARepository;
+
+
     //@Transactional(readOnly = true)
 	public List<Employee> findAll(){
 		return handleList(employeeRepository.findAll());
@@ -40,16 +45,15 @@ public class EmployeeService {
 	    employeeJPARepository.saveAll(employees);
 	}
 	
+	@Transactional
 	public Employee save(Employee  employee) {
-	    employeeJPARepository.save(employee);
-	    return employee;
+        deptJPARepository.save(employee.getDept());
+	    return employeeJPARepository.save(employee);
 	}
 	
 	//@Transactional(readOnly = true)
 	public Employee findById(Long id) {
-	    System.out.println("111");
         Optional<Employee> result = employeeJPARepository.findById(id);
-        System.out.println("222");
         return result.orElseThrow(() -> new DataNotFoundException("직원 정보가 존재하지 않습니다."));
 	}
 

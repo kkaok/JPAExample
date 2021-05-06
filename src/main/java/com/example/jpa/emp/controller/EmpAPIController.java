@@ -55,11 +55,11 @@ public class EmpAPIController {
         deptService.saveAll(depts);
 
         List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1L, "Jack", "Bauer", "a1@a.a"));
-        employees.add(new Employee(1L,"Chloe", "O'Brian", "a2@a.a"));
-        employees.add(new Employee(2L,"Kim", "Bauer", "a3@a.a"));
-        employees.add(new Employee(3L,"David", "Palmer", "a4@a.a"));
-        employees.add(new Employee(3L,"Michelle", "Dessler", "kkaok@a.a"));
+//        employees.add(new Employee(1L, "Jack", "Bauer", "a1@a.a"));
+//        employees.add(new Employee(1L,"Chloe", "O'Brian", "a2@a.a"));
+//        employees.add(new Employee(2L,"Kim", "Bauer", "a3@a.a"));
+//        employees.add(new Employee(3L,"David", "Palmer", "a4@a.a"));
+//        employees.add(new Employee(3L,"Michelle", "Dessler", "kkaok@a.a"));
         employeeService.saveAll(employees);
         return "ok";
     }

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -30,56 +30,54 @@ import lombok.extern.slf4j.Slf4j;
 @ComponentScan("com.example.jpa")  // 스캔 범위 지정
 //@ActiveProfiles("test")
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class EmployeeServiceTest2 {
+public class EmployeeServiceTest {
 
-	private static EmployeeService employeeService;
+	private EmployeeService employeeService;
 
-    private static ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
-//    public EmployeeServiceTest2(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
-//        this.employeeService = employeeService;
-//        this.modelMapper = modelMapper;
-//    }
+    public EmployeeServiceTest(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
+        this.employeeService = employeeService;
+        this.modelMapper = modelMapper;
+    }
 
-    private static Employee employee1;
-    private static Employee employee2;
-    private static Employee employee3;
+    private Employee employee1;
+    private Employee employee2;
+    private Employee employee3;
 
-    @BeforeAll //Junit4의 @Before
-    public static void setup(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
-        EmployeeServiceTest2.employeeService = employeeService;
-        EmployeeServiceTest2.modelMapper = modelMapper;
+    @BeforeEach //Junit4의 @Before
+    public void setup() {
         log.info("before start ######################################");
         Dept devDept = new Dept("dev", "개발팀");
         Employee emp1 = new Employee("Jack", "son", "a1@a.a");
         devDept.addEmployee(emp1); 
-        employee1 = EmployeeServiceTest2.employeeService.save(emp1);
+        employee1 = employeeService.save(emp1);
 
         Employee emp2 = new Employee("lee", "hi", "a2@a.a");
         devDept.addEmployee(emp2); 
-        employee2 = EmployeeServiceTest2.employeeService.save(emp2);
+        employee2 = employeeService.save(emp2);
         
         Dept devHr = new Dept("hr", "인사팀");
         Employee emp3 = new Employee("kkaok", "good", "kkaok@a.a");
         devHr.addEmployee(emp3); 
-        employee3 = EmployeeServiceTest2.employeeService.save(emp3);
+        employee3 = employeeService.save(emp3);
     }
     
     @Test
 	void findById(){
-	    Employee employee = EmployeeServiceTest2.employeeService.findById(employee1.getId());
+	    Employee employee = employeeService.findById(employee1.getId());
         assertThat(employee.getEmail()).isSameAs(employee1.getEmail());
 	}
 
     @Test
     void findOneByEmail(){
-        Employee employee = EmployeeServiceTest2.employeeService.findOneByEmail(employee3.getEmail());
+        Employee employee = employeeService.findOneByEmail(employee3.getEmail());
         assertThat(employee.getEmail()).isSameAs(employee3.getEmail());
     }
         
     @Test
     void findByLastName(){
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByLastName(employee3.getLastName());
+        List<Employee> employees = employeeService.findByLastName(employee3.getLastName());
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThan(0)
@@ -89,7 +87,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstName() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstName(employee3.getFirstName());
+        List<Employee> employees = employeeService.findByFirstName(employee3.getFirstName());
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThan(0)
@@ -99,7 +97,7 @@ public class EmployeeServiceTest2 {
     
     @Test
     void findAll() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findAll();
+        List<Employee> employees = employeeService.findAll();
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThan(2);
@@ -107,7 +105,7 @@ public class EmployeeServiceTest2 {
     
     @Test
     void findByFirstNameContaining() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameContaining("a");
+        List<Employee> employees = employeeService.findByFirstNameContaining("a");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(2)
@@ -118,7 +116,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstNameContainingIgnoreCase() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameContainingIgnoreCase("ja");
+        List<Employee> employees = employeeService.findByFirstNameContainingIgnoreCase("ja");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -129,7 +127,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstNameNotContaining() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameNotContaining("Ja");
+        List<Employee> employees = employeeService.findByFirstNameNotContaining("Ja");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -140,7 +138,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstNameLike() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameLike("%ac%");
+        List<Employee> employees = employeeService.findByFirstNameLike("%ac%");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -151,7 +149,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void searchByFirstNameLike() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.searchByFirstNameLike("%ac%");
+        List<Employee> employees = employeeService.searchByFirstNameLike("%ac%");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -162,7 +160,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstNameNotLike() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameNotLike("%ac%");
+        List<Employee> employees = employeeService.findByFirstNameNotLike("%ac%");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -173,7 +171,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstNameStartsWith() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameStartsWith("kk");
+        List<Employee> employees = employeeService.findByFirstNameStartsWith("kk");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -184,7 +182,7 @@ public class EmployeeServiceTest2 {
     
     @Test
     void findByFirstNameEndsWith() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameEndsWith("ee");
+        List<Employee> employees = employeeService.findByFirstNameEndsWith("ee");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -195,7 +193,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void searchByFirstNameStartsWith() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.searchByFirstNameStartsWith("kk");
+        List<Employee> employees = employeeService.searchByFirstNameStartsWith("kk");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -206,16 +204,7 @@ public class EmployeeServiceTest2 {
     
     @Test
     void searchByFirstNameEndsWith() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.searchByFirstNameEndsWith("ee");
-        
-        System.out.println("@@@@@@@@@");
-        employees.stream().forEach(System.out::println);
-        System.out.println("@@@@@@@@@");
-        
-        System.out.println("#########");
-        System.out.println(employee2.toString());
-        System.out.println("#########");
-        
+        List<Employee> employees = employeeService.searchByFirstNameEndsWith("ee");
         assertThat(employees)
             .isNotEmpty()
             .hasSizeGreaterThanOrEqualTo(1)
@@ -226,7 +215,7 @@ public class EmployeeServiceTest2 {
 
     @Test
     void findByFirstNameAndLastName() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameAndLastName("Jack", "son");
+        List<Employee> employees = employeeService.findByFirstNameAndLastName("Jack", "son");
         assertThat(employees)
             .isNotEmpty()
             .hasSize(1)
@@ -237,7 +226,7 @@ public class EmployeeServiceTest2 {
     
     @Test
     void findByFirstNameOrLastName() {
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findByFirstNameOrLastName("Jack", "good");
+        List<Employee> employees = employeeService.findByFirstNameOrLastName("Jack", "good");
         assertThat(employees)
             .isNotEmpty()
             .hasSize(2)
@@ -250,7 +239,7 @@ public class EmployeeServiceTest2 {
     @Test
     void sort() {
         Sort sort = Sort.by("firstName").ascending().and(Sort.by("lastName").descending());
-        List<Employee> employees = EmployeeServiceTest2.employeeService.findAll(sort);
+        List<Employee> employees = employeeService.findAll(sort);
         assertThat(employees)
             .isNotEmpty()
             .hasSize(3);
@@ -266,7 +255,7 @@ public class EmployeeServiceTest2 {
         int currentPage = 0;
         Sort sort = Sort.by("firstName").ascending().and(Sort.by("lastName").descending());
         Pageable pageable = PageRequest.of(currentPage, pageSize, sort);
-        Page<Employee> pageEmployees = EmployeeServiceTest2.employeeService.findAll(pageable);
+        Page<Employee> pageEmployees = employeeService.findAll(pageable);
         
         assertThat(pageEmployees).isNotEmpty();
 
