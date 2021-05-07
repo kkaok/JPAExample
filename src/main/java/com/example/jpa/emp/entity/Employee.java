@@ -22,12 +22,14 @@ import com.example.jpa.dept.entity.Dept;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name="TBL_EMPLOYEES")
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "dept")
+@NoArgsConstructor 
 public class Employee implements Serializable{
 	
     private static final long serialVersionUID = 1;
@@ -72,8 +74,6 @@ public class Employee implements Serializable{
         this.updated = LocalDateTime.now();
     }
 
-    public Employee() {}
-    
     @Override
     public String toString() {
         return ToStringBuilder

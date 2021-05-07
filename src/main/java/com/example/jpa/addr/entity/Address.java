@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -18,6 +19,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor 
 public class Address implements Serializable{
     
     private static final long serialVersionUID = 1;
@@ -32,10 +34,5 @@ public class Address implements Serializable{
     public Address(String address){
         this.address = address;
     }
-
-    public Address(){
-        super();
-    }
-    
 
 }

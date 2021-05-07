@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor 
 public class EmpAPI implements Serializable{
 
     private static final long serialVersionUID = 8697564380603342586L;
@@ -21,10 +23,5 @@ public class EmpAPI implements Serializable{
     private String stat;
     private Date created;
     private Date updated;
-
-    EmpAPI(){
-        super();
-    }
-	
 
 }
