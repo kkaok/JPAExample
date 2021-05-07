@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.jpa.addr.repository.AddrJPARepository;
 import com.example.jpa.dept.repository.DeptJPARepository;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.repository.EmployeeJPARepository;
@@ -26,9 +27,15 @@ public class EmployeeService {
 	
     private DeptJPARepository deptJPARepository;
 
-    EmployeeService(@Autowired EmployeeJPARepository employeeJPARepository, @Autowired EmployeeRepositorySupport employeeRepositorySupport, @Autowired DeptJPARepository deptJPARepository){
+    private AddrJPARepository addrJPARepository;
+
+    EmployeeService(@Autowired EmployeeJPARepository employeeJPARepository
+            , @Autowired EmployeeRepositorySupport employeeRepositorySupport
+            , @Autowired AddrJPARepository addrJPARepository
+            , @Autowired DeptJPARepository deptJPARepository){
         this.employeeJPARepository = employeeJPARepository;
         this.employeeRepositorySupport = employeeRepositorySupport;
+        this.addrJPARepository = addrJPARepository;
         this.deptJPARepository = deptJPARepository;
     }
 
@@ -45,7 +52,9 @@ public class EmployeeService {
 	@Transactional
 	public Employee save(Employee  employee) {
         deptJPARepository.save(employee.getDept());
-	    return employeeJPARepository.save(employee);
+        addrJPARepository.save(employee.getAddress());
+	    Employee rEmployee = employeeJPARepository.save(employee);
+	    return rEmployee;
 	}
 	
 	//@Transactional(readOnly = true)
@@ -87,6 +96,7 @@ public class EmployeeService {
 		return employeeJPARepository.findByFirstNameEndsWith(firstName);
 	}
 	
+	@Transactional(readOnly=true)
 	public List<Employee> findByFirstNameContainingIgnoreCase(String firstName){
 		return employeeJPARepository.findByFirstNameContainingIgnoreCase(firstName);
 	}

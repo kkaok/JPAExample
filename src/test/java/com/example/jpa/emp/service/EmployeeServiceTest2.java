@@ -7,30 +7,36 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.jpa.addr.entity.Address;
+import com.example.jpa.config.DataBaseConfiguration;
+import com.example.jpa.config.MapperConfiguration;
 import com.example.jpa.dept.entity.Dept;
 import com.example.jpa.emp.dto.EmpAPI;
 import com.example.jpa.emp.entity.Employee;
+import com.example.jpa.emp.repository.EmployeeRepositorySupport;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
-@RunWith(SpringRunner.class)
-@DataJpaTest 
-@ComponentScan("com.example.jpa")  // 스캔 범위 지정
+//@Slf4j
+//@RunWith(SpringRunner.class)
+//@ComponentScan("com.example.jpa")  // 스캔 범위 지정
 //@ActiveProfiles("test")
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@DataJpaTest 
+@Import({
+    DataBaseConfiguration.class,
+    MapperConfiguration.class,
+    EmployeeService.class,
+    EmployeeRepositorySupport.class
+})
 class EmployeeServiceTest2 {
 
 	private static EmployeeService employeeService;
@@ -45,18 +51,25 @@ class EmployeeServiceTest2 {
     static void setup(@Autowired EmployeeService employeeService, @Autowired ModelMapper modelMapper) {
         EmployeeServiceTest2.employeeService = employeeService;
         EmployeeServiceTest2.modelMapper = modelMapper;
-        Dept devDept = new Dept("dev", "개발팀");
-        Employee emp1 = new Employee("Jack", "son", "a1@a.a");
+        
+        Dept devDept = Dept.builder().deptCd("dev").deptName("개발팀").build(); 
+        Employee emp1 = Employee.builder().firstName("Jack").lastName("son").email("a1@a.a").build();
         devDept.addEmployee(emp1); 
+        Address addr1 = Address.builder().address("광명시").build();
+        emp1.setAddress(addr1);
         employee1 = EmployeeServiceTest2.employeeService.save(emp1);
 
-        Employee emp2 = new Employee("lee", "hi", "a2@a.a");
+        Employee emp2 = Employee.builder().firstName("lee").lastName("hi").email("a2@a.a").build();
         devDept.addEmployee(emp2); 
+        Address addr2 = Address.builder().address("강남구").build();
+        emp2.setAddress(addr2);
         employee2 = EmployeeServiceTest2.employeeService.save(emp2);
         
-        Dept devHr = new Dept("hr", "인사팀");
-        Employee emp3 = new Employee("kkaok", "good", "kkaok@a.a");
+        Dept devHr = Dept.builder().deptCd("hr").deptName("인사팀").build();
+        Employee emp3 = Employee.builder().firstName("kkaok").lastName("good").email("kkaok@a.a").build();
         devHr.addEmployee(emp3); 
+        Address addr3 = Address.builder().address("논현동").build();
+        emp3.setAddress(addr3);
         employee3 = EmployeeServiceTest2.employeeService.save(emp3);
     }
     

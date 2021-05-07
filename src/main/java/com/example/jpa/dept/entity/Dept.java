@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import com.example.jpa.emp.entity.Employee;
 
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -48,11 +49,7 @@ public class Dept implements Serializable{
     @OneToMany(mappedBy = "dept", fetch = FetchType.LAZY)
     private Set<Employee> employees = new HashSet<>();
 
-    public void addEmployee(Employee employee) {
-        employee.setDept(this);
-        this.employees.add(employee);
-    }
-
+    @Builder
     public Dept(String deptCd, String deptName) {
         this.deptCd = deptCd;
         this.deptName = deptName;
@@ -63,5 +60,10 @@ public class Dept implements Serializable{
     }
 
     public Dept() {}
+
+    public void addEmployee(Employee employee) {
+        employee.setDept(this);
+        this.employees.add(employee);
+    }
 
 }

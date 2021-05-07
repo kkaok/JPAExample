@@ -4,21 +4,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.context.annotation.Import;
 
+import com.example.jpa.config.DataBaseConfiguration;
+import com.example.jpa.config.MapperConfiguration;
 import com.example.jpa.dept.entity.Dept;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.service.EmployeeService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 //@Slf4j
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
+//@ComponentScan("com.example.jpa") // 스캔 범위 지정
+//@Configuration
 @DataJpaTest
-@ComponentScan("com.example.jpa") // 스캔 범위 지정
+@Import({
+    DataBaseConfiguration.class,
+    MapperConfiguration.class,
+    EmployeeService.class,
+    EmployeeRepositorySupport.class
+})
 class EmployeeRepositoryTest {
 
     @Autowired
