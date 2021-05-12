@@ -11,7 +11,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.jpa.addr.entity.Address;
 import com.example.jpa.addr.repository.AddrJPARepository;
+import com.example.jpa.dept.entity.Dept;
 import com.example.jpa.dept.repository.DeptJPARepository;
 import com.example.jpa.emp.entity.Employee;
 import com.example.jpa.emp.repository.EmployeeJPARepository;
@@ -51,10 +53,15 @@ public class EmployeeService {
 	
 	@Transactional
 	public Employee save(Employee  employee) {
+        Dept devDept = Dept.builder().deptCd("dev").deptName("개발팀").build();
         deptJPARepository.save(employee.getDept());
+        Employee emp1 = Employee.builder().firstName("Jack").lastName("son").email("a1@a.a").build();
+        devDept.addEmployee(emp1); 
+        Address addr1 = Address.builder().address("광명시").build();
+        emp1.setAddress(addr1);
         addrJPARepository.save(employee.getAddress());
-	    Employee rEmployee = employeeJPARepository.save(employee);
-	    return rEmployee;
+	    employeeJPARepository.save(employee);
+	    return employee;
 	}
 	
 	//@Transactional(readOnly = true)
